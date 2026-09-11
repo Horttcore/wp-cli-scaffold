@@ -6,6 +6,10 @@ namespace RalfHortt\WpCliScaffold\Support;
 
 final class ThemeJsonSectionMerger
 {
+    /**
+     * @param  array<string, mixed>  $themeJson
+     * @return array<string, mixed>
+     */
     public function merge(array $themeJson, string $section, mixed $incoming): array
     {
         $section = trim($section);
@@ -113,6 +117,7 @@ final class ThemeJsonSectionMerger
     }
 
     /**
+     * @param  array<string, mixed>  $data
      * @param  array<int, string>  $path
      */
     private function getByPath(array $data, array $path): mixed
@@ -131,6 +136,7 @@ final class ThemeJsonSectionMerger
     }
 
     /**
+     * @param  array<string, mixed>  $data
      * @param  array<int, string>  $path
      */
     private function setByPath(array &$data, array $path, mixed $value): void

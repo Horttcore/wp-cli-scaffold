@@ -1,14 +1,30 @@
 # ralfhortt/wp-cli-scaffold
 
+[![CI](https://github.com/Horttcore/wp-cli-scaffold/actions/workflows/ci.yml/badge.svg)](https://github.com/Horttcore/wp-cli-scaffold/actions/workflows/ci.yml)
+
 WP-CLI scaffold commands for blocks and block patterns.
 
 ## Installation
 
-Install the shared library first, then this package:
+Published package:
 
 ```bash
-wp package install /path/to/packages/wp-cli-shared
-wp package install /path/to/packages/wp-cli-scaffold
+wp package install ralfhortt/wp-cli-scaffold
+```
+
+`ralfhortt/wp-cli-shared` is installed automatically as a Composer dependency.
+
+Local development checkout:
+
+```bash
+wp package install /absolute/path/to/wp-cli-scaffold
+```
+
+Update after local edits:
+
+```bash
+wp package remove ralfhortt/wp-cli-scaffold
+wp package install /absolute/path/to/wp-cli-scaffold
 ```
 
 ## Commands
@@ -46,3 +62,11 @@ wp scaffold theme-json-section --section=settings.color.palette --json='[{"slug"
 - `--area=header|footer|sidebar|uncategorized` — for template-part
 - `--dry-run` — print `theme.json` merge result without writing
 - `--force` — overwrite existing files
+
+## Development
+
+```bash
+composer stan
+composer lint
+composer test
+```

@@ -10,6 +10,7 @@ final class CreateBlockRunner
 
     /**
      * @param  array<string, string>  $options
+     * @param  array<string, mixed>  $assoc_args
      */
     public function run(string $slug, string $cwd, array $options, array $assoc_args): void
     {

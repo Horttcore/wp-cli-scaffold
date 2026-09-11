@@ -56,6 +56,9 @@ final class QueryLoop_Command
      *
      * [--no-interaction]
      * : Disable interactive prompts.
+     *
+     * @param  array<int, string>  $args
+     * @param  array<string, mixed>  $assoc_args
      */
     public function __invoke(array $args, array $assoc_args): void
     {
@@ -126,6 +129,9 @@ final class QueryLoop_Command
         \WP_CLI::success(sprintf('Query loop pattern created: %s', $targetFile));
     }
 
+    /**
+     * @param  array<string, mixed>  $assoc_args
+     */
     private function resolveBoolFlag(array $assoc_args, string $yesFlag, string $noFlag, bool $default): bool
     {
         if (\WP_CLI\Utils\get_flag_value($assoc_args, $yesFlag)) {

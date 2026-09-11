@@ -49,6 +49,9 @@ final class TemplatePart_Command
      *
      * [--no-interaction]
      * : Disable interactive prompts.
+     *
+     * @param  array<int, string>  $args
+     * @param  array<string, mixed>  $assoc_args
      */
     public function __invoke(array $args, array $assoc_args): void
     {

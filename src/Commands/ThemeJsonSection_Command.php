@@ -36,6 +36,9 @@ final class ThemeJsonSection_Command
      *
      * [--no-interaction]
      * : Disable interactive prompts.
+     *
+     * @param  array<int, string>  $args
+     * @param  array<string, mixed>  $assoc_args
      */
     public function __invoke(array $args, array $assoc_args): void
     {
@@ -60,6 +63,8 @@ final class ThemeJsonSection_Command
         $current['version'] = isset($current['version']) && is_int($current['version'])
             ? $current['version']
             : 3;
+
+        $merged = $current;
 
         try {
             $merged = $merger->merge($current, $section, $payload);
@@ -91,6 +96,9 @@ final class ThemeJsonSection_Command
         \WP_CLI::success(sprintf('theme.json updated: %s', $themeJsonPath));
     }
 
+    /**
+     * @param  array<string, mixed>  $assoc_args
+     */
     private function resolvePayload(array $assoc_args): mixed
     {
         $json = \WP_CLI\Utils\get_flag_value($assoc_args, 'json');
@@ -132,9 +140,14 @@ final class ThemeJsonSection_Command
             return json_decode($json, true, 512, JSON_THROW_ON_ERROR);
         } catch (\JsonException $exception) {
             \WP_CLI::error(sprintf('Invalid JSON from %s: %s', $source, $exception->getMessage()));
+
+            throw new \RuntimeException('Unreachable after WP_CLI::error().');
         }
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function readThemeJson(string $path): array
     {
         if (! file_exists($path)) {

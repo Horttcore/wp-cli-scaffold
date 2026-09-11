@@ -51,6 +51,9 @@ final class StyleVariation_Command
      *
      * [--no-interaction]
      * : Disable interactive prompts.
+     *
+     * @param  array<int, string>  $args
+     * @param  array<string, mixed>  $assoc_args
      */
     public function __invoke(array $args, array $assoc_args): void
     {
@@ -243,6 +246,7 @@ final class StyleVariation_Command
     }
 
     /**
+     * @param  array<string, mixed>  $assoc_args
      * @param  array<string, string>  $suggestions
      */
     private function resolveOptionalColor(

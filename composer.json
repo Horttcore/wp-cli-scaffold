@@ -8,12 +8,10 @@
         "wp-cli/wp-cli": "^2.10",
         "ralfhortt/wp-cli-shared": "*"
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../wp-cli-shared"
-        }
-    ],
+    "require-dev": {
+        "pestphp/pest": "^2.36",
+        "phpstan/phpstan": "^1.12"
+    },
     "autoload": {
         "psr-4": {
             "RalfHortt\\WpCliScaffold\\": "src/"
@@ -21,6 +19,50 @@
         "files": [
             "scaffold-command.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RalfHortt\\WpCliScaffold\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "lint:syntax": [
+            "php -l scaffold-command.php",
+            "php -l src/Commands/CreateBlock_Command.php",
+            "php -l src/Commands/Pattern_Command.php",
+            "php -l src/Commands/StarterContent_Command.php",
+            "php -l src/Commands/QueryLoop_Command.php",
+            "php -l src/Commands/Template_Command.php",
+            "php -l src/Commands/TemplatePart_Command.php",
+            "php -l src/Commands/StyleVariation_Command.php",
+            "php -l src/Commands/ThemeJsonSection_Command.php",
+            "php -l src/Generators/PatternGenerator.php",
+            "php -l src/Generators/StarterContentGenerator.php",
+            "php -l src/Generators/QueryLoopGenerator.php",
+            "php -l src/Generators/TemplateGenerator.php",
+            "php -l src/Generators/TemplatePartGenerator.php",
+            "php -l src/Generators/StyleVariationGenerator.php",
+            "php -l src/Support/CreateBlockRunner.php",
+            "php -l src/Support/ThemeJsonSectionMerger.php",
+            "php -l tests/Pest.php",
+            "php -l tests/Support/wp-stubs.php",
+            "php -l tests/Unit/PatternGeneratorTest.php",
+            "php -l tests/Unit/TemplateGeneratorTest.php",
+            "php -l tests/Unit/TemplatePartGeneratorTest.php",
+            "php -l tests/Unit/StyleVariationGeneratorTest.php",
+            "php -l tests/Unit/ThemeJsonSectionMergerTest.php"
+        ],
+        "stan": "phpstan analyse --memory-limit=1G",
+        "lint": [
+            "@lint:syntax",
+            "@stan"
+        ],
+        "test": "pest --colors=always"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
