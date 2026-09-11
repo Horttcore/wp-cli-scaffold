@@ -1,0 +1,27 @@
+{
+    "name": "ralfhortt/wp-cli-scaffold",
+    "description": "WP-CLI scaffold commands for blocks and patterns",
+    "type": "wp-cli-package",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": ">=8.2",
+        "wp-cli/wp-cli": "^2.10",
+        "ralfhortt/wp-cli-shared": "*"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../wp-cli-shared"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "RalfHortt\\WpCliScaffold\\": "src/"
+        },
+        "files": [
+            "scaffold-command.php"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
