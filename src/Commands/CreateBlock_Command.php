@@ -69,7 +69,19 @@ final class CreateBlock_Command
             \WP_CLI::error('Block slug is required.');
         }
 
-        $destination = \WP_CLI\Utils\get_flag_value($assoc_args, 'destination', 'theme');
+        $destinationFlag = \WP_CLI\Utils\get_flag_value($assoc_args, 'destination');
+
+        if (is_string($destinationFlag) && $destinationFlag !== '') {
+            $destination = $destinationFlag;
+        } elseif (PromptHelper::isInteractive($assoc_args)) {
+            $destination = PromptHelper::suggest(
+                'Select destination',
+                ['theme', 'plugin'],
+                default: 'theme'
+            );
+        } else {
+            $destination = 'theme';
+        }
 
         if (! in_array($destination, ['theme', 'plugin'], true)) {
             \WP_CLI::error('Invalid --destination. Use theme or plugin.');
@@ -79,10 +91,20 @@ final class CreateBlock_Command
 
         $description = \WP_CLI\Utils\get_flag_value($assoc_args, 'description', '');
         $category = \WP_CLI\Utils\get_flag_value($assoc_args, 'category');
+        $blockCategories = $wpData->getBlockCategories();
 
         if ($destination === 'theme') {
             $textdomain = $themeResolver->getTextDomain();
-            $category ??= 'theme';
+            $defaultCategory = array_key_exists('theme', $blockCategories)
+                ? 'theme'
+                : (array_key_first($blockCategories) ?? 'theme');
+
+            if (! is_string($category) || $category === '') {
+                $category = PromptHelper::isInteractive($assoc_args)
+                    ? PromptHelper::suggest('Select block category', $blockCategories, default: $defaultCategory)
+                    : $defaultCategory;
+            }
+
             $cwd = $themeResolver->getThemePath();
 
             $options = [
@@ -114,8 +136,13 @@ final class CreateBlock_Command
             $textdomain = $pluginResolver->getPluginTextDomain($pluginSlug);
             $cwd = $pluginResolver->getPluginPath($pluginSlug);
 
-            $blockCategories = array_keys($wpData->getBlockCategories());
-            $category ??= $blockCategories[0] ?? 'widgets';
+            $defaultCategory = array_key_first($blockCategories) ?? 'widgets';
+
+            if (! is_string($category) || $category === '') {
+                $category = PromptHelper::isInteractive($assoc_args)
+                    ? PromptHelper::suggest('Select block category', $blockCategories, default: $defaultCategory)
+                    : $defaultCategory;
+            }
 
             $options = [
                 'no-plugin' => 'true',
@@ -157,8 +184,11 @@ final class CreateBlock_Command
             $textdomain = $pluginResolver->getPluginTextDomain($pluginSlug);
             $cwd = $pluginResolver->getPluginPath($pluginSlug);
 
-            $blockCategories = array_keys($wpData->getBlockCategories());
-            $category ??= $blockCategories[0] ?? 'widgets';
+            $defaultCategory = array_key_first($blockCategories) ?? 'widgets';
+
+            if (! is_string($category) || $category === '') {
+                $category = PromptHelper::suggest('Select block category', $blockCategories, default: $defaultCategory);
+            }
 
             $options = [
                 'no-plugin' => 'true',
@@ -184,8 +214,13 @@ final class CreateBlock_Command
 
         $textdomain = $slug;
         $cwd = $pluginResolver->getPluginsPath();
-        $blockCategories = array_keys($wpData->getBlockCategories());
-        $category ??= $blockCategories[0] ?? 'widgets';
+        $defaultCategory = array_key_first($blockCategories) ?? 'widgets';
+
+        if (! is_string($category) || $category === '') {
+            $category = PromptHelper::isInteractive($assoc_args)
+                ? PromptHelper::suggest('Select block category', $blockCategories, default: $defaultCategory)
+                : $defaultCategory;
+        }
 
         $options = [
             'textdomain' => $textdomain,

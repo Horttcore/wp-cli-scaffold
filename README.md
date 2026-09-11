@@ -19,6 +19,10 @@ wp package install /path/to/packages/wp-cli-scaffold
 | `wp scaffold pattern` | Create `{active-theme}/patterns/{slug}.php` |
 | `wp scaffold starter-content` | Create a starter content pattern |
 | `wp scaffold query-loop` | Create a query loop pattern |
+| `wp scaffold template [slug]` | Create `{active-theme}/templates/{slug}.html` |
+| `wp scaffold template-part [slug]` | Create `{active-theme}/parts/{slug}.html` |
+| `wp scaffold style-variation [slug]` | Create `{active-theme}/styles/{slug}.json` |
+| `wp scaffold theme-json-section` | Merge a payload into a `theme.json` section |
 
 All commands require `--path=/path/to/wordpress`.
 
@@ -28,6 +32,10 @@ All commands require `--path=/path/to/wordpress`.
 wp scaffold create-block todo-list --destination=theme --title="Todo List" --path=/path/to/wordpress
 wp scaffold pattern --title="Hero Banner" --categories=banner --path=/path/to/wordpress
 wp scaffold query-loop --title="Latest Posts" --post-type=post --path=/path/to/wordpress
+wp scaffold template single --path=/path/to/wordpress
+wp scaffold template-part header --area=header --path=/path/to/wordpress
+wp scaffold style-variation ocean --title="Ocean" --primary="#0a5cff" --background="#f4f8ff" --text="#0f172a" --path=/path/to/wordpress
+wp scaffold theme-json-section --section=settings.color.palette --json='[{"slug":"brand","name":"Brand","color":"#0a5cff"}]' --path=/path/to/wordpress
 ```
 
 ## Flags
@@ -35,4 +43,6 @@ wp scaffold query-loop --title="Latest Posts" --post-type=post --path=/path/to/w
 - `--theme=<slug>` — target a specific theme
 - `--destination=theme|plugin` — for create-block
 - `--plugin=<slug>` — add block to existing plugin
+- `--area=header|footer|sidebar|uncategorized` — for template-part
+- `--dry-run` — print `theme.json` merge result without writing
 - `--force` — overwrite existing files
